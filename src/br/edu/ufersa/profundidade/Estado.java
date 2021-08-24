@@ -1,8 +1,8 @@
-package br.edu.ufersa.trabalho;
+package br.edu.ufersa.profundidade;
 
 public class Estado {
 	
-	int[][] state = new int[4][4];
+	int[][] state = new int[2][2];
 	Estado pai;
 	
 	Estado(){
