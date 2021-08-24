@@ -6,22 +6,37 @@ import java.util.Queue;
 
 public class LightsOut {
 
+	static int contador_expandidos=0;
+	
 	public static void main(String[] args) {
-		Estado estado = inicio();
-		Queue<Estado> fila = new LinkedList<Estado>();
+		int contador_visitados=0;
+		int tamanhoFila=0;
+		Estado estado = inicio(); //INICIALIZA ESTADO CONFORME ESTADO INICIAL
+		Queue<Estado> fila = new LinkedList<Estado>(); //FILA DE ESTADOS
 		enfileira(estado, fila);
-		while (!filaVazia(fila)) {
+		Queue<Estado> estadosExpandidos = new LinkedList<Estado>(); //FILA DOS ESTADOS EXPANDIDOS
+		while (!filaVazia(fila)) {			
 			Estado estadoAtual = desenfileira(fila);
+			contador_visitados++;
 			if (objetivo(estadoAtual)) {
 				System.out.println("Estado objetivo encontrado!");
 				mostraCaminho(estadoAtual);
+				System.out.println("Total de estados visitados: "+contador_visitados);
+				System.out.println("Total de estados expandidos: "+estadosExpandidos.size());
+				System.out.println("Total de estados expandidos (via contador): "+contador_expandidos);
+				System.out.println("Número máximo de estados na estrutura que guarda estados a serem expandidos:"+tamanhoFila);
 				break;
 			}
 			exibeEstado(estadoAtual);
+			if(fila.size()>tamanhoFila) {
+				tamanhoFila = fila.size();
+			}
+			System.out.println("tamanhoFila: "+tamanhoFila);
 			Queue<Estado> estadosFilhos = expansao(estadoAtual);
 			for (Estado filho : estadosFilhos) {
 				enfileira(filho, fila);
 			}
+			estadosExpandidos.add(estado); //ADICIONA ESTADO_ATUAL A FILA DOS EXPANDIDOS.
 		}
 	}
 
@@ -38,7 +53,7 @@ public class LightsOut {
 	}
 
 	public static Estado inicio() {
-		int mat[][] = { { 1, 0, 0 }, { 0, 1, 1 }, { 0, 1, 0 } };
+		int mat[][] = { { 1, 1, 0 }, { 0, 1, 1 }, { 0, 1, 0 } };
 		Estado inicio = new Estado();
 		inicio.setState(mat);
 		inicio.setPai(null);
@@ -101,6 +116,7 @@ public class LightsOut {
 		 * Na primeira linha não haverá números acima 
 		 * Na última linha não haverá números abaixo
 		 */
+		contador_expandidos++;
 		Queue<Estado> filhos = new LinkedList<Estado>();
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
