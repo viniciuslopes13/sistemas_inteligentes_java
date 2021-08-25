@@ -14,7 +14,7 @@ public class LightsOut_profundidadeLimitada {
 	public static void main(String[] args) {
 		int contador_visitados = 0;
 		int tamanhoPilha = 0;
-		int limiteProfundidade = 2;
+		int limiteProfundidade = 3;
 		Estado estado = inicio(); // INICIALIZA ESTADO CONFORME ESTADO INICIAL
 		Stack<Estado> pilha = new Stack<Estado>(); // PILHA DE ESTADOS
 		empilha(estado, pilha);
@@ -67,7 +67,7 @@ public class LightsOut_profundidadeLimitada {
 	}
 
 	public static Estado inicio() {
-		int mat[][] = { { 1, 0, 0 }, { 0, 1, 1 }, { 0, 1, 0 } };
+		int mat[][] = { { 0, 0, 1 }, { 1, 0, 0 }, { 1, 1, 1 } };
 		Estado inicio = new Estado();
 		inicio.setState(mat);
 		inicio.setProfundidade(0);
@@ -103,7 +103,7 @@ public class LightsOut_profundidadeLimitada {
 			for (int j = 0; j < tamanhoMatriz; j++) {
 				Estado estadoCopia = s.clone();
 				estadoCopia.setPai(s);
-				estadoCopia.setProfundidade((estadoCopia.getProfundidade()+1));
+				estadoCopia.setProfundidade((s.getProfundidade()+1));
 				operacao(estadoCopia, i, j);
 				if (i < (tamanhoMatriz - 1)) {
 					operacao(estadoCopia, i + 1, j);

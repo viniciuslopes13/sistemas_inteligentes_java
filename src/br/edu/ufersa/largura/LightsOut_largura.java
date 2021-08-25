@@ -60,7 +60,7 @@ public class LightsOut_largura {
 	}
 
 	public static Estado inicio() {
-		int mat[][] = { { 1, 0, 1 }, { 0, 1, 0 }, { 1, 0, 1 } };
+		int mat[][] = { { 0, 0, 1 }, { 1, 0, 0 }, { 1, 1, 1 } };
 		Estado inicio = new Estado();
 		inicio.setState(mat);
 		inicio.setPai(null);

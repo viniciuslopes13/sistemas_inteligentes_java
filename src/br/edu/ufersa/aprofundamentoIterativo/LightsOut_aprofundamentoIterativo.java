@@ -18,15 +18,17 @@ public class LightsOut_aprofundamentoIterativo {
 		int profundidadeMaximaAtual;
 		Stack<Estado> pilha = new Stack<Estado>(); // PILHA DE ESTADOS
 		Queue<Estado> estadosExpandidos = new LinkedList<Estado>(); // FILA DOS ESTADOS EXPANDIDOS
+		primeiro:
 		while (true) {
 			Estado estado = inicio(); // INICIALIZA ESTADO CONFORME ESTADO INICIAL
 			empilha(estado, pilha);
 			profundidadeMaximaAtual=0;
+			segundo:
 			while (!pilhaVazia(pilha)) {
 				Estado estadoAtual = desempilha(pilha);
-				if (estaNosExpandidos(estadoAtual, estadosExpandidos)) {
-					continue;
-				}
+//				if (estaNosExpandidos(estadoAtual, estadosExpandidos)) {
+//					continue;
+//				}
 				contador_visitados++;
 				if (objetivo(estadoAtual)) {
 					System.out.println("Estado objetivo encontrado!");
@@ -36,15 +38,9 @@ public class LightsOut_aprofundamentoIterativo {
 					System.out.println("Total de estados expandidos (via contador): " + contador_expandidos);
 					System.out.println("Número máximo de estados na estrutura que guarda estados a serem expandidos:"
 							+ tamanhoPilha);
-					break;
+					break primeiro;
 				}
 				exibeEstado(estadoAtual);
-//				if(estadoAtual.getProfundidade()>profundidadeMaximaAtual) {
-//					profundidadeMaximaAtual = estadoAtual.getProfundidade();
-//				}
-//				if (estadoAtual.getProfundidade() >= limiteProfundidade) {
-//					continue;
-//				}
 				List<Estado> estadosFilhos = expansao(estadoAtual);
 				estadosExpandidos.add(estado); // ADICIONA ESTADO_ATUAL A FILA DOS EXPANDIDOS.
 				for (Estado filho : estadosFilhos) {
@@ -62,7 +58,7 @@ public class LightsOut_aprofundamentoIterativo {
 				}
 				System.out.println("tamanhoPilha: " + tamanhoPilha);
 			}
-			if(profundidadeMaximaAtual<limiteProfundidade) {
+			if(profundidadeMaximaAtual < limiteProfundidade) {
 				break;
 			}
 			limiteProfundidade=limiteProfundidade+1;
@@ -83,7 +79,7 @@ public class LightsOut_aprofundamentoIterativo {
 	}
 
 	public static Estado inicio() {
-		int mat[][] = { { 1, 0, 0 }, { 0, 1, 1 }, { 0, 1, 0 } };
+		int mat[][] = { { 0, 0, 1 }, { 1, 0, 0 }, { 1, 1, 1 } };
 		Estado inicio = new Estado();
 		inicio.setState(mat);
 		inicio.setProfundidade(0);
@@ -119,7 +115,7 @@ public class LightsOut_aprofundamentoIterativo {
 			for (int j = 0; j < tamanhoMatriz; j++) {
 				Estado estadoCopia = s.clone();
 				estadoCopia.setPai(s);
-				estadoCopia.setProfundidade((estadoCopia.getProfundidade() + 1));
+				estadoCopia.setProfundidade((s.getProfundidade()+1));
 				operacao(estadoCopia, i, j);
 				if (i < (tamanhoMatriz - 1)) {
 					operacao(estadoCopia, i + 1, j);
