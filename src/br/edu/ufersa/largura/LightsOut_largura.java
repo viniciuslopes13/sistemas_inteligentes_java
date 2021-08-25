@@ -16,11 +16,11 @@ public class LightsOut_largura {
 		enfileira(estado, fila);
 		Queue<Estado> estadosExpandidos = new LinkedList<Estado>(); // FILA DOS ESTADOS EXPANDIDOS
 		while (!filaVazia(fila)) {
-			Estado estadoAtual = desenfileira(fila);
-			if(estaNosExpandidos(estadoAtual,estadosExpandidos)) {
-				continue;
-			}
 			contador_visitados++;
+			Estado estadoAtual = desenfileira(fila);
+//			if(estaNosExpandidos(estadoAtual,estadosExpandidos)) {
+//				continue;
+//			}
 			if (objetivo(estadoAtual)) {
 				System.out.println("Estado objetivo encontrado!");
 				mostraCaminho(estadoAtual);
