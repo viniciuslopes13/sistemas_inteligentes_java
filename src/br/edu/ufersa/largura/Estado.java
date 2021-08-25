@@ -1,8 +1,10 @@
-package br.edu.ufersa.trabalho;
+package br.edu.ufersa.largura;
+
+import java.util.Arrays;
 
 public class Estado {
 	
-	int[][] state = new int[4][4];
+	int[][] state = new int[3][3];
 	Estado pai;
 	
 	Estado(){
@@ -35,6 +37,26 @@ public class Estado {
 		Estado outro = new Estado();
 		outro.setState(mat);
 		return outro;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.deepHashCode(state);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Estado other = (Estado) obj;
+		return Arrays.deepEquals(state, other.state);
 	}
 	
 }

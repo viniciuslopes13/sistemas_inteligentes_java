@@ -1,4 +1,4 @@
-package br.edu.ufersa.profundidade;
+package br.edu.ufersa.profundidadeLimitada;
 
 import java.util.Arrays;
 
@@ -6,6 +6,7 @@ public class Estado {
 	
 	int[][] state = new int[3][3];
 	Estado pai;
+	int profundidade;
 	
 	Estado(){
 	}
@@ -26,6 +27,14 @@ public class Estado {
 		this.pai = pai;
 	}
 	
+	public int getProfundidade() {
+		return profundidade;
+	}
+
+	public void setProfundidade(int profundidade) {
+		this.profundidade = profundidade;
+	}
+
 	public Estado clone() {
 		int tamanhoMatriz = this.state.length;
 		int[][] mat = new int[tamanhoMatriz][tamanhoMatriz];

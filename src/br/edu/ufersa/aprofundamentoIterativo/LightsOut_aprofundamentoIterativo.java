@@ -1,4 +1,4 @@
-package br.edu.ufersa.profundidade;
+package br.edu.ufersa.aprofundamentoIterativo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,46 +7,66 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
 
-public class LightsOut_profundidade {
+public class LightsOut_aprofundamentoIterativo {
 
 	static int contador_expandidos = 0;
 
 	public static void main(String[] args) {
 		int contador_visitados = 0;
 		int tamanhoPilha = 0;
-		Estado estado = inicio(); // INICIALIZA ESTADO CONFORME ESTADO INICIAL
+		int limiteProfundidade = 0;
+		int profundidadeMaximaAtual;
 		Stack<Estado> pilha = new Stack<Estado>(); // PILHA DE ESTADOS
-		empilha(estado, pilha);
 		Queue<Estado> estadosExpandidos = new LinkedList<Estado>(); // FILA DOS ESTADOS EXPANDIDOS
-		while (!pilhaVazia(pilha)) {
-			Estado estadoAtual = desempilha(pilha);
-			if(estaNosExpandidos(estadoAtual,estadosExpandidos)) {
-				continue;
+		while (true) {
+			Estado estado = inicio(); // INICIALIZA ESTADO CONFORME ESTADO INICIAL
+			empilha(estado, pilha);
+			profundidadeMaximaAtual=0;
+			while (!pilhaVazia(pilha)) {
+				Estado estadoAtual = desempilha(pilha);
+				if (estaNosExpandidos(estadoAtual, estadosExpandidos)) {
+					continue;
+				}
+				contador_visitados++;
+				if (objetivo(estadoAtual)) {
+					System.out.println("Estado objetivo encontrado!");
+					mostraCaminho(estadoAtual);
+					System.out.println("Total de estados visitados: " + contador_visitados);
+					System.out.println("Total de estados expandidos: " + estadosExpandidos.size());
+					System.out.println("Total de estados expandidos (via contador): " + contador_expandidos);
+					System.out.println("Número máximo de estados na estrutura que guarda estados a serem expandidos:"
+							+ tamanhoPilha);
+					break;
+				}
+				exibeEstado(estadoAtual);
+//				if(estadoAtual.getProfundidade()>profundidadeMaximaAtual) {
+//					profundidadeMaximaAtual = estadoAtual.getProfundidade();
+//				}
+//				if (estadoAtual.getProfundidade() >= limiteProfundidade) {
+//					continue;
+//				}
+				List<Estado> estadosFilhos = expansao(estadoAtual);
+				estadosExpandidos.add(estado); // ADICIONA ESTADO_ATUAL A FILA DOS EXPANDIDOS.
+				for (Estado filho : estadosFilhos) {
+					if ((!estaNoCaminho(filho, estadoAtual)) && (!estadoAberto(filho, pilha))) {
+						if(estadoAtual.getProfundidade() < limiteProfundidade) {
+							empilha(filho, pilha);
+						}
+						if(estadoAtual.getProfundidade()>profundidadeMaximaAtual) {
+							profundidadeMaximaAtual = estadoAtual.getProfundidade();
+						}
+					}
+				}
+				if (pilha.size() > tamanhoPilha) {
+					tamanhoPilha = pilha.size();
+				}
+				System.out.println("tamanhoPilha: " + tamanhoPilha);
 			}
-			contador_visitados++;
-			if (objetivo(estadoAtual)) {
-				System.out.println("Estado objetivo encontrado!");
-				mostraCaminho(estadoAtual);
-				System.out.println("Total de estados visitados: " + contador_visitados);
-				System.out.println("Total de estados expandidos: " + estadosExpandidos.size());
-				System.out.println("Total de estados expandidos (via contador): " + contador_expandidos);
-				System.out.println("Número máximo de estados na estrutura que guarda estados a serem expandidos:" + tamanhoPilha);
+			if(profundidadeMaximaAtual<limiteProfundidade) {
 				break;
 			}
-			exibeEstado(estadoAtual);
-			List<Estado> estadosFilhos = expansao(estadoAtual);
-			estadosExpandidos.add(estado); // ADICIONA ESTADO_ATUAL A FILA DOS EXPANDIDOS.
-			for (Estado filho : estadosFilhos) {
-				if((!estaNoCaminho(filho,estadoAtual))&&(!estadoAberto(filho,pilha))) {
-					empilha(filho, pilha);
-				}
-			}
-			if (pilha.size() > tamanhoPilha) {
-				tamanhoPilha = pilha.size();
-			}
-			System.out.println("tamanhoPilha: " + tamanhoPilha);
+			limiteProfundidade=limiteProfundidade+1;
 		}
-
 	}
 
 	public static void exibeEstado(Estado s) {
@@ -63,9 +83,10 @@ public class LightsOut_profundidade {
 	}
 
 	public static Estado inicio() {
-		int mat[][] = { { 1, 0, 1 }, { 0, 0, 0 }, { 1, 0, 1 } };
+		int mat[][] = { { 1, 0, 0 }, { 0, 1, 1 }, { 0, 1, 0 } };
 		Estado inicio = new Estado();
 		inicio.setState(mat);
+		inicio.setProfundidade(0);
 		inicio.setPai(null);
 		return inicio;
 	}
@@ -98,6 +119,7 @@ public class LightsOut_profundidade {
 			for (int j = 0; j < tamanhoMatriz; j++) {
 				Estado estadoCopia = s.clone();
 				estadoCopia.setPai(s);
+				estadoCopia.setProfundidade((estadoCopia.getProfundidade() + 1));
 				operacao(estadoCopia, i, j);
 				if (i < (tamanhoMatriz - 1)) {
 					operacao(estadoCopia, i + 1, j);
@@ -139,26 +161,26 @@ public class LightsOut_profundidade {
 		mostraCaminho(s.pai);
 		exibeEstado(s);
 	}
-	
+
 	public static boolean estaNoCaminho(Estado filho, Estado ancestral) {
-		if(ancestral==null) {
+		if (ancestral == null) {
 			return false;
 		}
-		if(filho.equals(ancestral)) {
+		if (filho.equals(ancestral)) {
 			return true;
 		}
 		return estaNoCaminho(filho, ancestral.getPai());
 	}
-	
-	public static boolean estadoAberto(Estado filho,Stack<Estado> pilha) {
-		if(pilha.contains(filho)) {
+
+	public static boolean estadoAberto(Estado filho, Stack<Estado> pilha) {
+		if (pilha.contains(filho)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	private static boolean estaNosExpandidos(Estado estadoAtual, Queue<Estado> expandidos) {
-		if(expandidos.contains(estadoAtual)) {
+		if (expandidos.contains(estadoAtual)) {
 			return true;
 		}
 		return false;

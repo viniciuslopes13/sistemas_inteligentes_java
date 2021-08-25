@@ -1,25 +1,22 @@
-package br.edu.ufersa.profundidade;
+package br.edu.ufersa.largura;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
-import java.util.Stack;
 
-public class LightsOut_profundidade {
+public class LightsOut_largura {
 
 	static int contador_expandidos = 0;
 
 	public static void main(String[] args) {
 		int contador_visitados = 0;
-		int tamanhoPilha = 0;
+		int tamanhoFila = 0;
 		Estado estado = inicio(); // INICIALIZA ESTADO CONFORME ESTADO INICIAL
-		Stack<Estado> pilha = new Stack<Estado>(); // PILHA DE ESTADOS
-		empilha(estado, pilha);
+		Queue<Estado> fila = new LinkedList<Estado>(); // FILA DE ESTADOS
+		enfileira(estado, fila);
 		Queue<Estado> estadosExpandidos = new LinkedList<Estado>(); // FILA DOS ESTADOS EXPANDIDOS
-		while (!pilhaVazia(pilha)) {
-			Estado estadoAtual = desempilha(pilha);
+		while (!filaVazia(fila)) {
+			Estado estadoAtual = desenfileira(fila);
 			if(estaNosExpandidos(estadoAtual,estadosExpandidos)) {
 				continue;
 			}
@@ -30,23 +27,23 @@ public class LightsOut_profundidade {
 				System.out.println("Total de estados visitados: " + contador_visitados);
 				System.out.println("Total de estados expandidos: " + estadosExpandidos.size());
 				System.out.println("Total de estados expandidos (via contador): " + contador_expandidos);
-				System.out.println("Número máximo de estados na estrutura que guarda estados a serem expandidos:" + tamanhoPilha);
+				System.out.println(
+						"Número máximo de estados na estrutura que guarda estados a serem expandidos:" + tamanhoFila);
 				break;
 			}
 			exibeEstado(estadoAtual);
-			List<Estado> estadosFilhos = expansao(estadoAtual);
+			Queue<Estado> estadosFilhos = expansao(estadoAtual);
 			estadosExpandidos.add(estado); // ADICIONA ESTADO_ATUAL A FILA DOS EXPANDIDOS.
 			for (Estado filho : estadosFilhos) {
-				if((!estaNoCaminho(filho,estadoAtual))&&(!estadoAberto(filho,pilha))) {
-					empilha(filho, pilha);
+				if((!estaNoCaminho(filho,estadoAtual))&&(!estadoAberto(filho,fila))) {
+					enfileira(filho, fila);
 				}
 			}
-			if (pilha.size() > tamanhoPilha) {
-				tamanhoPilha = pilha.size();
+			if (fila.size() > tamanhoFila) {
+				tamanhoFila = fila.size();
 			}
-			System.out.println("tamanhoPilha: " + tamanhoPilha);
+			System.out.println("tamanhoFila: " + tamanhoFila);
 		}
-
 	}
 
 	public static void exibeEstado(Estado s) {
@@ -63,7 +60,7 @@ public class LightsOut_profundidade {
 	}
 
 	public static Estado inicio() {
-		int mat[][] = { { 1, 0, 1 }, { 0, 0, 0 }, { 1, 0, 1 } };
+		int mat[][] = { { 1, 0, 1 }, { 0, 1, 0 }, { 1, 0, 1 } };
 		Estado inicio = new Estado();
 		inicio.setState(mat);
 		inicio.setPai(null);
@@ -90,10 +87,28 @@ public class LightsOut_profundidade {
 		s.state[i][j] = inverteValor(valorPosicao);
 	}
 
-	public static List<Estado> expansao(Estado s) {
+	public static Queue<Estado> expansao(Estado s) {
+		/*
+		 * (0,0) (0,1) (0,2) (1,0) (1,1) (1,2) (2,0) (2,1) (2,2)
+		 * 
+		 * (0,0) -> (0,1) e (1,0) (0,1) -> (0,0) e (0,2) e (1,1) (0,2) -> (0,1) e (1,2)
+		 * 
+		 * (1,0) -> (0,0) e (1,1) e (2,0) (1,1) -> (0,1) e (2,1) e (1,0) e (1,2) (1,2)
+		 * -> (0,2) e (1,1) e (2,2)
+		 * 
+		 * (2,0) -> (1,0) e (2,1) (2,1) -> (2,0) e (1,1) e (2,2) (2,2) -> (2,1) e (1,2)
+		 * 
+		 * O número à esquerda está na posição (x - 1, y) O número à direita está na
+		 * posição (x + 1, y) O número acima está na posição (x, y - 1) O número abaixo
+		 * está na posição (x, y + 1)
+		 * 
+		 * Lembrando que: Na primeira coluna não haverá números à esquerda Na última
+		 * coluna não haverá números à direita Na primeira linha não haverá números
+		 * acima Na última linha não haverá números abaixo
+		 */
 		contador_expandidos++;
 		int tamanhoMatriz = s.getState().length;
-		List<Estado> filhos = new ArrayList<Estado>();
+		Queue<Estado> filhos = new LinkedList<Estado>();
 		for (int i = 0; i < tamanhoMatriz; i++) {
 			for (int j = 0; j < tamanhoMatriz; j++) {
 				Estado estadoCopia = s.clone();
@@ -117,19 +132,19 @@ public class LightsOut_profundidade {
 		return filhos;
 	}
 
-	public static boolean pilhaVazia(Stack<Estado> pilha) {
-		if (pilha.isEmpty()) {
+	public static boolean filaVazia(Queue<Estado> fila) {
+		if (fila.isEmpty()) {
 			return true;
 		}
 		return false;
 	}
 
-	public static void empilha(Estado s, Stack<Estado> pilha) {
-		pilha.push(s);
+	public static void enfileira(Estado s, Queue<Estado> fila) {
+		fila.add(s);
 	}
 
-	public static Estado desempilha(Stack<Estado> pilha) {
-		return pilha.pop();
+	public static Estado desenfileira(Queue<Estado> fila) {
+		return fila.remove();
 	}
 
 	public static void mostraCaminho(Estado s) {
@@ -150,8 +165,8 @@ public class LightsOut_profundidade {
 		return estaNoCaminho(filho, ancestral.getPai());
 	}
 	
-	public static boolean estadoAberto(Estado filho,Stack<Estado> pilha) {
-		if(pilha.contains(filho)) {
+	public static boolean estadoAberto(Estado filho,Queue<Estado> fila) {
+		if(fila.contains(filho)) {
 			return true;
 		}
 		return false;
@@ -163,5 +178,4 @@ public class LightsOut_profundidade {
 		}
 		return false;
 	}
-
 }
