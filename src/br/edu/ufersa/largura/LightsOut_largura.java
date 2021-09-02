@@ -18,9 +18,9 @@ public class LightsOut_largura {
 		while (!filaVazia(fila)) {
 			contador_visitados++;
 			Estado estadoAtual = desenfileira(fila);
-//			if(estaNosExpandidos(estadoAtual,estadosExpandidos)) {
-//				continue;
-//			}
+			if(estaNosExpandidos(estadoAtual,estadosExpandidos)) {
+				continue;
+			}
 			if (objetivo(estadoAtual)) {
 				System.out.println("Estado objetivo encontrado!");
 				mostraCaminho(estadoAtual);
@@ -60,7 +60,7 @@ public class LightsOut_largura {
 	}
 
 	public static Estado inicio() {
-		int mat[][] = { { 0, 0, 1 }, { 1, 0, 0 }, { 1, 1, 1 } };
+		int mat[][] = { { 0, 1, 0 }, { 0, 1, 1 }, { 0, 1, 0 } };
 		Estado inicio = new Estado();
 		inicio.setState(mat);
 		inicio.setPai(null);

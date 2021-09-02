@@ -63,7 +63,7 @@ public class LightsOut_profundidade {
 	}
 
 	public static Estado inicio() {
-		int mat[][] = { { 0, 0, 1 }, { 1, 0, 0 }, { 1, 1, 1 } };
+		int mat[][] = { { 0, 1, 0 }, { 0, 1, 1 }, { 0, 1, 0 } };
 		Estado inicio = new Estado();
 		inicio.setState(mat);
 		inicio.setPai(null);
