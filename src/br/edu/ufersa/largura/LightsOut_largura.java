@@ -60,7 +60,7 @@ public class LightsOut_largura {
 	}
 
 	public static Estado inicio() {
-		int mat[][] = { { 0, 1, 0 }, { 0, 1, 1 }, { 0, 1, 0 } };
+		int mat[][] = { { 0,0, 0, 0, 0 }, { 0, 0, 1, 0, 0 }, { 0, 1, 1, 1, 0 }, { 0, 0, 1, 0, 0 }, { 0, 0, 0, 0, 0 } };
 		Estado inicio = new Estado();
 		inicio.setState(mat);
 		inicio.setPai(null);
@@ -68,7 +68,7 @@ public class LightsOut_largura {
 	}
 
 	public static boolean objetivo(Estado s) {
-		int objetivo[][] = { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
+		int objetivo[][] = { { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 } };
 		if (Arrays.deepEquals(s.state, objetivo)) {
 			return true;
 		}
@@ -89,22 +89,32 @@ public class LightsOut_largura {
 
 	public static Queue<Estado> expansao(Estado s) {
 		/*
-		 * (0,0) (0,1) (0,2) (1,0) (1,1) (1,2) (2,0) (2,1) (2,2)
+		 * (0,0) (0,1) (0,2) 
+		 * (1,0) (1,1) (1,2) 
+		 * (2,0) (2,1) (2,2)
 		 * 
-		 * (0,0) -> (0,1) e (1,0) (0,1) -> (0,0) e (0,2) e (1,1) (0,2) -> (0,1) e (1,2)
+		 * (0,0) -> (0,1) e (1,0) 
+		 * (0,1) -> (0,0) e (0,2) e (1,1) 
+		 * (0,2) -> (0,1) e (1,2)
 		 * 
-		 * (1,0) -> (0,0) e (1,1) e (2,0) (1,1) -> (0,1) e (2,1) e (1,0) e (1,2) (1,2)
-		 * -> (0,2) e (1,1) e (2,2)
+		 * (1,0) -> (0,0) e (1,1) e (2,0) 
+		 * (1,1) -> (0,1) e (2,1) e (1,0) e (1,2) 
+		 * (1,2)-> (0,2) e (1,1) e (2,2)
 		 * 
-		 * (2,0) -> (1,0) e (2,1) (2,1) -> (2,0) e (1,1) e (2,2) (2,2) -> (2,1) e (1,2)
+		 * (2,0) -> (1,0) e (2,1) 
+		 * (2,1) -> (2,0) e (1,1) e (2,2) 
+		 * (2,2) -> (2,1) e (1,2)
 		 * 
-		 * O número à esquerda está na posição (x - 1, y) O número à direita está na
-		 * posição (x + 1, y) O número acima está na posição (x, y - 1) O número abaixo
-		 * está na posição (x, y + 1)
+		 * O número à esquerda está na posição (x - 1, y) 
+		 * O número à direita está na posição (x + 1, y) 
+		 * O número acima está na posição (x, y - 1) 
+		 * O número abaixo está na posição (x, y + 1)
 		 * 
-		 * Lembrando que: Na primeira coluna não haverá números à esquerda Na última
-		 * coluna não haverá números à direita Na primeira linha não haverá números
-		 * acima Na última linha não haverá números abaixo
+		 * Lembrando que: 
+		 * Na primeira coluna não haverá números à esquerda 
+		 * Na última coluna não haverá números à direita 
+		 * Na primeira linha não haverá números acima 
+		 * Na última linha não haverá números abaixo
 		 */
 		contador_expandidos++;
 		int tamanhoMatriz = s.getState().length;

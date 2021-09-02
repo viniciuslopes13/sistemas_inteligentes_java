@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Estado {
 	
-	int[][] state = new int[3][3];
+	int[][] state = new int[5][5];
 	Estado pai;
 	
 	Estado(){
