@@ -61,7 +61,7 @@ public class Pessoa {
 	public void setPosicaoNaMesa(int posicaoNaMesa) {
 		this.posicaoNaMesa = posicaoNaMesa;
 	}
-
+	
 	@Override
 	public String toString() {
 		return nome;
