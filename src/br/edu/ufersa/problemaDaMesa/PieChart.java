@@ -26,7 +26,7 @@ public class PieChart extends JFrame {
 			pizza.setValue(p.getNome()+"\nConflitos "+p.getListaInimigos()+"", 1);
 		}
 		JFreeChart grafico = ChartFactory.createPieChart(
-				"Pessoas Alocadas na Mesa INICIAL\n Conflitos: " + m.getNumConflitos() + "", pizza, true, true, false);
+				"Pessoas Alocadas na Mesa INICIAL\n Conflitos: " + m.getNumConflitos() + "", pizza, false, true, false);
 		ChartPanel painel = new ChartPanel(grafico);
 		add(painel);
 	}
