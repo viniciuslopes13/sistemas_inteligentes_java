@@ -2,6 +2,7 @@ package br.edu.ufersa.problemaDaMesa;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class Mesa {
@@ -88,6 +89,8 @@ public class Mesa {
 	}
 	public int getNumConflitos() {
 		
+		numConflitos = 0;
+		
 		for(int i=0; i<this.alocados.size(); i++) {
 			if(i==(this.alocados.size()-1)) {
 				if(alocados.get(i).getListaInimigos().contains(alocados.get(0))){
@@ -104,6 +107,53 @@ public class Mesa {
 	}
 	public void setNumConflitos(int numConflitos) {
 		this.numConflitos = numConflitos;
+	}
+
+	public Mesa clone() {
+		List<Pessoa> list = new ArrayList<Pessoa>();
+		for(Pessoa p : this.alocados) {
+			list.add(p);
+		}
+		Mesa mesa = new Mesa(list);
+		return mesa;
+	}
+	
+	public Mesa sucessor() {
+		Mesa m1;
+		Mesa m2;
+		while(true) {
+			m1 = this.clone();
+			m1.populaMesaAleatorio();
+			m2 = this.clone();
+			m2.populaMesaAleatorio();
+			if(!m1.equals(m2)) {
+				break;
+			}
+		}
+		if(m2.equals(this) || m1.equals(this)) {
+			this.sucessor();
+		}
+		if(m2.getNumConflitos() < m1.getNumConflitos()) {
+			return m2;
+		}
+		return m1;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(alocados);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Mesa other = (Mesa) obj;
+		return Objects.equals(alocados, other.alocados);
 	}
 
 	@Override
