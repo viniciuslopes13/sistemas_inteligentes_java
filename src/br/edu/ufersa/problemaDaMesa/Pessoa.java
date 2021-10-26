@@ -9,7 +9,7 @@ public class Pessoa {
 	private String nome;
 	private List<Pessoa> listaInimigos;
 	private int posicaoNaMesa;
-	
+
 	public Pessoa(String nome) {
 		this.nome = nome;
 		listaInimigos = new ArrayList<Pessoa>();
@@ -21,11 +21,11 @@ public class Pessoa {
 		List<Pessoa> possiveisAlocacoes = new ArrayList<Pessoa>();
 		possiveisAlocacoes.addAll(m.getNaoAlocados());
 		possiveisAlocacoes.remove(euProprio);
-		if(!m.getNaoAlocados().equals(listaInimigos)) {
+		if (!m.getNaoAlocados().equals(listaInimigos)) {
 			possiveisAlocacoes.removeAll(listaInimigos);
 		}
-		if(possiveisAlocacoes.isEmpty()) {
-			if(m.getNaoAlocados().isEmpty()) {
+		if (possiveisAlocacoes.isEmpty()) {
+			if (m.getNaoAlocados().isEmpty()) {
 				return null;
 			}
 			return m.getNaoAlocados().get(random.nextInt(m.getNaoAlocados().size()));
@@ -33,15 +33,42 @@ public class Pessoa {
 		Pessoa p = possiveisAlocacoes.get(random.nextInt(possiveisAlocacoes.size()));
 		return p;
 	}
-	
+
 	public void adicionaInimigo(Pessoa p) {
 		this.listaInimigos.add(p);
+		p.listaInimigos.add(this);
 	}
-	
+
 	public List<Pessoa> getListaInimigos() {
 		return listaInimigos;
 	}
-	
+
+	public Boolean verificaConflitosVizinhanca(Mesa m) {
+
+		int contador = 0;
+		int ultimaPosicao = m.getAlocados().size() - 1;
+		posicaoNaMesa = m.getAlocados().indexOf(this);
+
+		if (posicaoNaMesa == 0) {
+			if (this.getListaInimigos().contains(m.getAlocados().get(posicaoNaMesa + 1))
+					|| this.getListaInimigos().contains(m.getAlocados().get(ultimaPosicao)))
+				contador++;
+		} else if (posicaoNaMesa == ultimaPosicao) {
+			if (this.getListaInimigos().contains(m.getAlocados().get(0))
+					|| this.getListaInimigos().contains(m.getAlocados().get(posicaoNaMesa - 1)))
+				contador++;
+		} else {
+			if (this.getListaInimigos().contains(m.getAlocados().get(posicaoNaMesa + 1))
+					|| this.getListaInimigos().contains(m.getAlocados().get(posicaoNaMesa - 1)))
+				contador++;
+		}
+
+		if (contador > 0)
+			return true;
+
+		return false;
+	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -61,7 +88,7 @@ public class Pessoa {
 	public void setPosicaoNaMesa(int posicaoNaMesa) {
 		this.posicaoNaMesa = posicaoNaMesa;
 	}
-	
+
 	@Override
 	public String toString() {
 		return nome;
