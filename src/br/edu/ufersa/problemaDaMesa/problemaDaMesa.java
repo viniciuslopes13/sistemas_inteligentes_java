@@ -32,9 +32,12 @@ public class problemaDaMesa {
 		//System.out.println(iorrane.getListaInimigos());
 
 		Mesa m2 = new Mesa(participante);
-		m2 = m2.popularMesa(participante);
+		//m2 = m2.popularMesa(participante);
+		
+		m2.populaMesaAleatorio();
 		
 		System.out.println(m2);
+		System.out.println("Total de conflitos: "+m2.getNumConflitos());
 
 		//System.out.println(iorrane.buscarVizinho(m2, iorrane.getListaInimigos(), iorrane));
 

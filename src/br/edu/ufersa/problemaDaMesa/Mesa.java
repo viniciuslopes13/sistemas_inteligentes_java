@@ -45,6 +45,18 @@ public class Mesa {
 		return this;
 	}
 	
+	public void populaMesaAleatorio() {
+		Random random = new Random();
+		int tamanhoNaoAlocados = this.naoAlocados.size();
+		if(tamanhoNaoAlocados==0) {
+			return;
+		}
+		int aleatorio = random.nextInt(tamanhoNaoAlocados);
+		this.alocarPessoa(this.naoAlocados.get(aleatorio));
+		this.removeNaoAlocados(this.naoAlocados.get(aleatorio));
+		this.populaMesaAleatorio();
+	}
+	
 	public List<Pessoa> getAlocados() {
 		return alocados;
 	}
@@ -75,6 +87,19 @@ public class Mesa {
 		this.naoAlocados = naoAlocados;
 	}
 	public int getNumConflitos() {
+		
+		for(int i=0; i<this.alocados.size(); i++) {
+			if(i==(this.alocados.size()-1)) {
+				if(alocados.get(i).getListaInimigos().contains(alocados.get(0))){
+					numConflitos++;
+				}
+			}else {
+				if(alocados.get(i).getListaInimigos().contains(alocados.get(i+1))){
+					numConflitos++;
+				}
+			}
+		}
+		
 		return numConflitos;
 	}
 	public void setNumConflitos(int numConflitos) {
