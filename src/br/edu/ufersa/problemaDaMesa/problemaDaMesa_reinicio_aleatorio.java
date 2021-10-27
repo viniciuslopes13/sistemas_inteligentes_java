@@ -39,25 +39,34 @@ public class problemaDaMesa_reinicio_aleatorio {
 		//AQUI COMEÇA O ALGORITMO - SUBIDA DE ENCOSTA
 		Mesa melhor = new Mesa(participante);
 		melhor.populaMesaAleatorio(); //INICIALIZA A MESA DE FORMA ALEATÓRIA NUM ESTADO INICIAL
+		int conflitosMesaMelhor = melhor.getNumConflitos();
 		PieChart gr1 = new PieChart(melhor); //CHAMA GRÁFICO INICIAL
 		System.out.println("Mesa inicial:" + melhor); //EXIBE A COMPOSIÇÃO INICIAL DA MESA
 		System.out.println("Número de conflintos da mesa inicial: "+melhor.getNumConflitos()); //NÚMERO DE CONFLITOS INCICIAL
 		int cont = 0; //INICIALIZA CONTADOR QUE CONTROLA O LAÇO
-		int cont2 = 0;
+		Mesa atual = new Mesa(melhor.getAlocados());
 		while(cont<=100) {
-			Mesa atual = new Mesa(participante);
-			atual.populaMesaAleatorio();
-			while(cont2<=100) {
-				cont2++;
+			if(cont==0) {
+				atual.populaMesaAleatorio();
+			}else {
+				atual.setNaoAlocados(atual.getAlocados());
+				atual.setAlocados(new ArrayList<Pessoa>());
+				atual.populaMesaAleatorio();
+			}
+			System.out.println("iteracao "+cont+":"+atual+" - total Conflitos - "+atual.getNumConflitos());
+			while(true) {
 				Mesa vizinho = new Mesa();
 				vizinho = atual.sucessor();
-				if(vizinho.getNumConflitos() <= atual.getNumConflitos()) {
-					atual = vizinho;
+				if(vizinho.getNumConflitos() >= atual.getNumConflitos()) {
 					break;
 				}
+				atual=vizinho;
 			}
-			if(atual.getNumConflitos() < melhor.getNumConflitos())
-				melhor = atual;
+			System.out.println("((atual melhor vizinho)iteracao "+cont+":"+atual+" - total Conflitos - "+atual.getNumConflitos());
+			if(atual.getNumConflitos() < conflitosMesaMelhor) {
+				melhor = atual.CloneIdentico();
+				conflitosMesaMelhor = atual.getNumConflitos();
+			}
 			cont++;
 		}
 		System.out.println();

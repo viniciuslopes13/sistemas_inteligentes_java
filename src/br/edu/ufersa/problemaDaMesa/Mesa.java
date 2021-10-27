@@ -109,6 +109,17 @@ public class Mesa {
 		this.numConflitos = numConflitos;
 	}
 
+	
+	public Mesa CloneIdentico() {
+		List<Pessoa> list = new ArrayList<Pessoa>();
+		for(Pessoa p : this.alocados) {
+			list.add(p);
+		}
+		Mesa mesa = new Mesa();
+		mesa.setAlocados(list);
+		return mesa;
+	}
+	
 	public Mesa clone() {
 		List<Pessoa> list = new ArrayList<Pessoa>();
 		for(Pessoa p : this.alocados) {
@@ -135,6 +146,15 @@ public class Mesa {
 		}
 		if(m2.getNumConflitos() < m1.getNumConflitos()) {
 			return m2;
+		}
+		return m1;
+	}
+	
+	public Mesa sucessorTemperaSimulada() {
+		Mesa m1 = this.clone();
+		m1.populaMesaAleatorio();
+		if(m1.equals(this)) {
+			this.sucessor();
 		}
 		return m1;
 	}
