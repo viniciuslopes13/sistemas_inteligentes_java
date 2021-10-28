@@ -17,7 +17,7 @@ public class problemaDaMesa_genetico {
 		int numeroGeracoes = 100;
 		List<Mesa> geracaoAtual = new ArrayList<Mesa>();
 		for(int i=0;i<tamanhoPopulacao;i++) {
-			Mesa mesa = new Mesa(copia(participante));
+			Mesa mesa = new Mesa(Utils.copia(participante));
 			mesa.populaMesaAleatorio();
 			geracaoAtual.add(mesa);
 		}
@@ -41,15 +41,6 @@ public class problemaDaMesa_genetico {
 		}
 		PieChart gr1 = new PieChart(melhor);
 		
-	}
-
-	private static List<Pessoa> copia(List<Pessoa> participante) {
-		// TODO Auto-generated method stub
-		List<Pessoa> list = new ArrayList<Pessoa>();
-		for(Pessoa p: participante) {
-			list.add(p);
-		}
-		return list;
 	}
 
 	private static Mesa escolhe(List<Mesa> geracaoAtual) {
