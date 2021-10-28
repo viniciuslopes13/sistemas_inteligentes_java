@@ -17,6 +17,12 @@ public class problemaDaMesa_reinicio_aleatorio {
 		Pessoa victor = new Pessoa("Victor");
 		Pessoa luan = new Pessoa("Luan");
 		Pessoa sebastiao = new Pessoa("Sebastião");
+		Pessoa thiago = new Pessoa("thiago");
+		Pessoa bruno = new Pessoa("bruno");
+		Pessoa breno = new Pessoa("breno");
+		Pessoa lamark = new Pessoa("lamark");
+		Pessoa alef = new Pessoa("alef");
+		Pessoa joao = new Pessoa("joao");
 	
 		participante.add(iorrane);
 		participante.add(danilo);
@@ -26,25 +32,39 @@ public class problemaDaMesa_reinicio_aleatorio {
 		participante.add(victor);
 		participante.add(luan);
 		participante.add(sebastiao);
+		participante.add(alef);
+		participante.add(joao);
+		participante.add(lamark);
+		participante.add(breno);
+		participante.add(bruno);
+		participante.add(thiago);
 		
 		iorrane.adicionaInimigo(danilo);
 		iorrane.adicionaInimigo(marco);
 		iorrane.adicionaInimigo(andre);
+		iorrane.adicionaInimigo(luan);
 		danilo.adicionaInimigo(vinicius);
+		danilo.adicionaInimigo(andre);
 		andre.adicionaInimigo(luan);
 		sebastiao.adicionaInimigo(victor);
 		sebastiao.adicionaInimigo(vinicius);
 		andre.adicionaInimigo(victor);
+		breno.adicionaInimigo(joao);
+		joao.adicionaInimigo(lamark);
+		lamark.adicionaInimigo(alef);
+		alef.adicionaInimigo(thiago);
+		thiago.adicionaInimigo(bruno);
+		bruno.adicionaInimigo(sebastiao);
 		
 		//AQUI COMEÇA O ALGORITMO - SUBIDA DE ENCOSTA
-		Mesa melhor = new Mesa(participante);
+		Mesa melhor = new Mesa(copia(participante));
 		melhor.populaMesaAleatorio(); //INICIALIZA A MESA DE FORMA ALEATÓRIA NUM ESTADO INICIAL
 		int conflitosMesaMelhor = melhor.getNumConflitos();
 		PieChart gr1 = new PieChart(melhor); //CHAMA GRÁFICO INICIAL
 		System.out.println("Mesa inicial:" + melhor); //EXIBE A COMPOSIÇÃO INICIAL DA MESA
 		System.out.println("Número de conflintos da mesa inicial: "+melhor.getNumConflitos()); //NÚMERO DE CONFLITOS INCICIAL
 		int cont = 0; //INICIALIZA CONTADOR QUE CONTROLA O LAÇO
-		Mesa atual = new Mesa(melhor.getAlocados());
+		Mesa atual = new Mesa(copia(participante));
 		while(cont<=100) {
 			if(cont==0) {
 				atual.populaMesaAleatorio();
@@ -73,6 +93,15 @@ public class problemaDaMesa_reinicio_aleatorio {
 		System.out.println("Mesa FINAL:" + melhor); //EXIBE A COMPOSIÇÃO FINAL DA MESA
 		System.out.println("Número de conflintos da mesa FINAL: "+melhor.getNumConflitos()); //NÚMERO DE CONFLITOS FINAL
 		PieChart gr2 = new PieChart(melhor); //CHAMA GRÁFICO FINAL
+	}
+	
+	private static List<Pessoa> copia(List<Pessoa> participante) {
+		// TODO Auto-generated method stub
+		List<Pessoa> list = new ArrayList<Pessoa>();
+		for(Pessoa p: participante) {
+			list.add(p);
+		}
+		return list;
 	}
 	
 }

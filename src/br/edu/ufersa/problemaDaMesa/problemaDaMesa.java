@@ -17,6 +17,12 @@ public class problemaDaMesa {
 		Pessoa victor = new Pessoa("Victor");
 		Pessoa luan = new Pessoa("Luan");
 		Pessoa sebastiao = new Pessoa("Sebastião");
+		Pessoa thiago = new Pessoa("thiago");
+		Pessoa bruno = new Pessoa("bruno");
+		Pessoa breno = new Pessoa("breno");
+		Pessoa lamark = new Pessoa("lamark");
+		Pessoa alef = new Pessoa("alef");
+		Pessoa joao = new Pessoa("joao");
 	
 		participante.add(iorrane);
 		participante.add(danilo);
@@ -26,15 +32,29 @@ public class problemaDaMesa {
 		participante.add(victor);
 		participante.add(luan);
 		participante.add(sebastiao);
+		participante.add(alef);
+		participante.add(joao);
+		participante.add(lamark);
+		participante.add(breno);
+		participante.add(bruno);
+		participante.add(thiago);
 		
 		iorrane.adicionaInimigo(danilo);
 		iorrane.adicionaInimigo(marco);
 		iorrane.adicionaInimigo(andre);
+		iorrane.adicionaInimigo(luan);
 		danilo.adicionaInimigo(vinicius);
+		danilo.adicionaInimigo(andre);
 		andre.adicionaInimigo(luan);
 		sebastiao.adicionaInimigo(victor);
 		sebastiao.adicionaInimigo(vinicius);
 		andre.adicionaInimigo(victor);
+		breno.adicionaInimigo(joao);
+		joao.adicionaInimigo(lamark);
+		lamark.adicionaInimigo(alef);
+		alef.adicionaInimigo(thiago);
+		thiago.adicionaInimigo(bruno);
+		bruno.adicionaInimigo(sebastiao);
 		
 		//AQUI COMEÇA O ALGORITMO - SUBIDA DE ENCOSTA
 		Mesa atual = new Mesa(participante);
