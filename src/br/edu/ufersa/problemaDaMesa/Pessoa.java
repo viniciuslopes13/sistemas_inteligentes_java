@@ -2,6 +2,7 @@ package br.edu.ufersa.problemaDaMesa;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class Pessoa {
@@ -87,6 +88,23 @@ public class Pessoa {
 
 	public void setPosicaoNaMesa(int posicaoNaMesa) {
 		this.posicaoNaMesa = posicaoNaMesa;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(nome);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pessoa other = (Pessoa) obj;
+		return Objects.equals(nome, other.nome);
 	}
 
 	@Override
