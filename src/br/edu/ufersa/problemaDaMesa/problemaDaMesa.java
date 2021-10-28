@@ -2,6 +2,7 @@ package br.edu.ufersa.problemaDaMesa;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class problemaDaMesa {
 
@@ -78,4 +79,18 @@ public class problemaDaMesa {
 		PieChart gr2 = new PieChart(atual); //CHAMA GRÁFICO FINAL
 	}
 	
+	public static List<Pessoa> listaMesa(){
+		List<Pessoa> list = new ArrayList<Pessoa>();
+		for(int i=0;i<20;i++) {
+			list.add(new Pessoa("P"+i));
+		}
+		for(int i=0;i<20;i++) {
+			Random random = new  Random();
+			list.get(i).adicionaInimigo(list.get(random.nextInt(20)));
+			list.get(i).adicionaInimigo(list.get(random.nextInt(20)));
+			list.get(i).adicionaInimigo(list.get(random.nextInt(20)));
+			list.get(i).adicionaInimigo(list.get(random.nextInt(20)));
+		}
+		return list;
+	}
 }

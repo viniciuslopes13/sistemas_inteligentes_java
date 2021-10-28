@@ -2,6 +2,7 @@ package br.edu.ufersa.problemaDaMesa;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class problemaDaMesa_reinicio_aleatorio {
 
@@ -56,15 +57,17 @@ public class problemaDaMesa_reinicio_aleatorio {
 		thiago.adicionaInimigo(bruno);
 		bruno.adicionaInimigo(sebastiao);
 		
+		List<Pessoa> p = listaMesa();
+		
 		//AQUI COMEÇA O ALGORITMO - SUBIDA DE ENCOSTA
-		Mesa melhor = new Mesa(copia(participante));
+		Mesa melhor = new Mesa(copia(p));
 		melhor.populaMesaAleatorio(); //INICIALIZA A MESA DE FORMA ALEATÓRIA NUM ESTADO INICIAL
 		int conflitosMesaMelhor = melhor.getNumConflitos();
 		PieChart gr1 = new PieChart(melhor); //CHAMA GRÁFICO INICIAL
 		System.out.println("Mesa inicial:" + melhor); //EXIBE A COMPOSIÇÃO INICIAL DA MESA
 		System.out.println("Número de conflintos da mesa inicial: "+melhor.getNumConflitos()); //NÚMERO DE CONFLITOS INCICIAL
 		int cont = 0; //INICIALIZA CONTADOR QUE CONTROLA O LAÇO
-		Mesa atual = new Mesa(copia(participante));
+		Mesa atual = new Mesa(copia(p));
 		while(cont<=100) {
 			if(cont==0) {
 				atual.populaMesaAleatorio();
@@ -100,6 +103,21 @@ public class problemaDaMesa_reinicio_aleatorio {
 		List<Pessoa> list = new ArrayList<Pessoa>();
 		for(Pessoa p: participante) {
 			list.add(p);
+		}
+		return list;
+	}
+	
+	public static List<Pessoa> listaMesa(){
+		List<Pessoa> list = new ArrayList<Pessoa>();
+		for(int i=0;i<20;i++) {
+			list.add(new Pessoa("P"+i));
+		}
+		for(int i=0;i<20;i++) {
+			Random random = new  Random();
+			list.get(i).adicionaInimigo(list.get(random.nextInt(20)));
+			list.get(i).adicionaInimigo(list.get(random.nextInt(20)));
+			list.get(i).adicionaInimigo(list.get(random.nextInt(20)));
+			list.get(i).adicionaInimigo(list.get(random.nextInt(20)));
 		}
 		return list;
 	}

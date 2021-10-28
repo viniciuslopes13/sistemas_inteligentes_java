@@ -137,10 +137,12 @@ public class problemaDaMesa_genetico {
 	public static List<Pessoa> listaMesa(){
 		List<Pessoa> list = new ArrayList<Pessoa>();
 		for(int i=0;i<20;i++) {
-			list.add(new Pessoa(geradorDeNomes()));
+			list.add(new Pessoa("P"+i));
 		}
 		for(int i=0;i<20;i++) {
 			Random random = new  Random();
+			list.get(i).adicionaInimigo(list.get(random.nextInt(20)));
+			list.get(i).adicionaInimigo(list.get(random.nextInt(20)));
 			list.get(i).adicionaInimigo(list.get(random.nextInt(20)));
 			list.get(i).adicionaInimigo(list.get(random.nextInt(20)));
 		}

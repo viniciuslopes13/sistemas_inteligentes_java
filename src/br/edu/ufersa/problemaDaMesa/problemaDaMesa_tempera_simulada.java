@@ -58,7 +58,7 @@ public class problemaDaMesa_tempera_simulada {
 		thiago.adicionaInimigo(bruno);
 		bruno.adicionaInimigo(sebastiao);
 		
-		Mesa atual = new Mesa(participante);
+		Mesa atual = new Mesa(listaMesa());
 		atual.populaMesaAleatorio(); //INICIALIZA A MESA DE FORMA ALEATÓRIA NUM ESTADO INICIAL
 		PieChart gr1 = new PieChart(atual); //CHAMA GRÁFICO INICIAL
 		System.out.println("Mesa inicial:" + atual); //EXIBE A COMPOSIÇÃO INICIAL DA MESA
@@ -94,10 +94,10 @@ public class problemaDaMesa_tempera_simulada {
 	
 	public static List<Pessoa> listaMesa(){
 		List<Pessoa> list = new ArrayList<Pessoa>();
-		for(int i=0;i<50;i++) {
-			list.add(new Pessoa(geradorDeNomes()));
+		for(int i=0;i<20;i++) {
+			list.add(new Pessoa("P"+i));
 		}
-		for(int i=0;i<50;i++) {
+		for(int i=0;i<20;i++) {
 			Random random = new  Random();
 			list.get(i).adicionaInimigo(list.get(random.nextInt(20)));
 			list.get(i).adicionaInimigo(list.get(random.nextInt(20)));
