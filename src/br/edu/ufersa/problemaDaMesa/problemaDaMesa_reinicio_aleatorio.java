@@ -8,9 +8,9 @@ public class problemaDaMesa_reinicio_aleatorio {
 
 	public static void main(String[] args) {
 		
-		List<Pessoa> participante = Utils.listaConhecida();
+		List<Pessoa> participante = Utils.listaConhecidaComConfitos();
 		
-		Utils.geradorDeConflitos(participante);
+		//Utils.geradorDeConflitos(participante);
 		
 		Mesa melhor = new Mesa(Utils.copia(participante));
 		melhor.populaMesaAleatorio(); //INICIALIZA A MESA DE FORMA ALEATÓRIA NUM ESTADO INICIAL
@@ -18,7 +18,7 @@ public class problemaDaMesa_reinicio_aleatorio {
 		PieChart gr1 = new PieChart(melhor); //CHAMA GRÁFICO INICIAL
 		System.out.println("Mesa inicial:" + melhor); //EXIBE A COMPOSIÇÃO INICIAL DA MESA
 		System.out.println("Número de conflintos da mesa inicial: "+melhor.getNumConflitos()); //NÚMERO DE CONFLITOS INCICIAL
-		int cont = 0; //INICIALIZA CONTADOR QUE CONTROLA O LAÇO
+		int cont = 0; 
 		int contAux = 0;
 		while(cont<=100) {
 			Mesa atual = new Mesa(Utils.copia(participante));

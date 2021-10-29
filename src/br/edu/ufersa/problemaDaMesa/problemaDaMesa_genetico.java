@@ -9,9 +9,9 @@ public class problemaDaMesa_genetico {
 
 	public static void main(String[] args) {
 		
-		List<Pessoa> participante = Utils.listaConhecida();
+		List<Pessoa> participante = Utils.listaConhecidaComConfitos();
 		
-		Utils.geradorDeConflitos(participante);
+		//Utils.geradorDeConflitos(participante);
 		
 		int tamanhoPopulacao = 100;
 		int numeroGeracoes = 100;
@@ -21,6 +21,15 @@ public class problemaDaMesa_genetico {
 			mesa.populaMesaAleatorio();
 			geracaoAtual.add(mesa);
 		}
+		//Mostra a melhor mesa da primeira geração
+		Mesa melhor = geracaoAtual.get(0);
+		for(Mesa m1 : geracaoAtual) {
+			if(m1.getNumConflitos()<melhor.getNumConflitos()) {
+				melhor = m1;
+			}
+		}
+		PieChart gr1 = new PieChart(melhor);
+		//
 		for(int i=0; i<numeroGeracoes; i++) {
 			List<Mesa> proximaGeracao = new ArrayList<Mesa>();
 			for(int j=0; j<tamanhoPopulacao; j++) {
@@ -33,13 +42,16 @@ public class problemaDaMesa_genetico {
 			System.out.println("i - "+i);
 			geracaoAtual = proximaGeracao;
 		}
-		Mesa melhor = geracaoAtual.get(0);
+		melhor = geracaoAtual.get(0);
+		int cont=0;
 		for (Mesa m1 : geracaoAtual) {
 			if(m1.getNumConflitos()<melhor.getNumConflitos()) {
 				melhor = m1;
+				cont++;
 			}
 		}
-		PieChart gr1 = new PieChart(melhor);
+		System.out.println("A melhor composição foi encontrada na iteracao: "+cont);
+		PieChart gr2 = new PieChart(melhor);
 		
 	}
 

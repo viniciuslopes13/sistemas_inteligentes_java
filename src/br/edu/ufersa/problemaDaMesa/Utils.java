@@ -99,7 +99,7 @@ public class Utils {
 
 	public static List<Pessoa> mesaAleatoria() {
 		List<Pessoa> list = new ArrayList<Pessoa>();
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 50; i++) {
 			list.add(new Pessoa("P" + i));
 		}
 		geradorDeConflitos(list);

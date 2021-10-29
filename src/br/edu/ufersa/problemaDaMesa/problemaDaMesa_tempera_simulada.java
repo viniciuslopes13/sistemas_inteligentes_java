@@ -9,9 +9,9 @@ public class problemaDaMesa_tempera_simulada {
 
 	public static void main(String[] args) {
 
-		List<Pessoa> participante = Utils.listaConhecida();
+		List<Pessoa> participante = Utils.listaConhecidaComConfitos();
 
-		Utils.geradorDeConflitos(participante);
+		//Utils.geradorDeConflitos(participante);
 
 		Mesa atual = new Mesa(participante);
 		atual.populaMesaAleatorio(); // INICIALIZA A MESA DE FORMA ALEATÓRIA NUM ESTADO INICIAL
@@ -22,6 +22,7 @@ public class problemaDaMesa_tempera_simulada {
 		double T = 1000.0;
 		int delta;
 		Random random = new Random();
+		int cont = 0;
 		while (true) {
 
 			T = T * 0.999;
@@ -37,15 +38,18 @@ public class problemaDaMesa_tempera_simulada {
 
 			if (delta > 0) {
 				atual = vizinho;
+				cont++;
 			} else if (random.nextDouble() < Math.exp(delta / T)) {
 				atual = vizinho;
+				cont++;
 			}
 
 		}
 		System.out.println();
 		System.out.println("Mesa FINAL:" + atual); // EXIBE A COMPOSIÇÃO FINAL DA MESA
 		System.out.println("Número de conflintos da mesa FINAL: " + atual.getNumConflitos()); // NÚMERO DE CONFLITOS
-																								// FINAL
+		System.out.println();
+		System.out.println("A melhor composição foi encontrada na iteracao: "+cont);																						// FINAL
 		PieChart gr2 = new PieChart(atual); // CHAMA GRÁFICO FINAL
 	}
 
