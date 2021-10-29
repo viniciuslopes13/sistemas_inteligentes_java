@@ -11,7 +11,7 @@ public class problemaDaMesa_genetico {
 		
 		List<Pessoa> participante = Utils.listaConhecidaComConfitos();
 		
-		//Utils.geradorDeConflitos(participante);
+		Utils.geradorDeConflitos(participante);
 		
 		int tamanhoPopulacao = 100;
 		int numeroGeracoes = 100;
@@ -22,12 +22,7 @@ public class problemaDaMesa_genetico {
 			geracaoAtual.add(mesa);
 		}
 		//Mostra a melhor mesa da primeira geração
-		Mesa melhor = geracaoAtual.get(0);
-		for(Mesa m1 : geracaoAtual) {
-			if(m1.getNumConflitos()<melhor.getNumConflitos()) {
-				melhor = m1;
-			}
-		}
+		Mesa melhor = melhorMesa(geracaoAtual);
 		PieChart gr1 = new PieChart(melhor);
 		//
 		for(int i=0; i<numeroGeracoes; i++) {
@@ -35,6 +30,8 @@ public class problemaDaMesa_genetico {
 			for(int j=0; j<tamanhoPopulacao; j++) {
 				Mesa x = escolhe(geracaoAtual);
 				Mesa y = escolhe(geracaoAtual);
+				//Mesa x = escolheElite(geracaoAtual);
+				//Mesa y = escolheElite2(geracaoAtual,x);
 				Mesa filho = cruzamento(x,y);
 				filho = mutacao(filho);
 				proximaGeracao.add(filho);
@@ -53,6 +50,34 @@ public class problemaDaMesa_genetico {
 		System.out.println("A melhor composição foi encontrada na iteracao: "+cont);
 		PieChart gr2 = new PieChart(melhor);
 		
+	}
+	
+	private static Mesa melhorMesa(List<Mesa> geracaoAtual) {
+		Mesa melhor = geracaoAtual.get(0);
+		for(Mesa m1 : geracaoAtual) {
+			if(m1.getNumConflitos()<melhor.getNumConflitos()) {
+				melhor = m1;
+			}
+		}
+		return melhor;
+	}
+		
+	private static Mesa escolheElite(List<Mesa> geracaoAtual) {
+		return melhorMesa(geracaoAtual);
+	}
+	
+	private static Mesa escolheElite2(List<Mesa> geracaoAtual, Mesa m) {
+		Mesa melhor_ = melhorMesa(geracaoAtual);
+		Mesa melhor = geracaoAtual.get(0);
+		for(Mesa m1 : geracaoAtual) {
+			if(m1.equals(melhor_)) {
+				continue;
+			}
+			if(m1.getNumConflitos()<melhor.getNumConflitos()) {
+				melhor = m1;
+			}
+		}
+		return melhor;
 	}
 
 	private static Mesa escolhe(List<Mesa> geracaoAtual) {
