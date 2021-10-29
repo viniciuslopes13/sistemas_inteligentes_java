@@ -9,10 +9,11 @@ public class problemaDaMesa_tempera_simulada {
 
 	public static void main(String[] args) {
 
-		List<Pessoa> participante = Utils.listaConhecidaComConfitos();
-
-		//Utils.geradorDeConflitos(participante);
-
+		List<Pessoa> participante = Utils.listaConhecida();
+		
+		Utils.geradorDeConflitos(participante);
+		Utils.geradorDeConflitos(participante);
+		
 		Mesa atual = new Mesa(participante);
 		atual.populaMesaAleatorio(); // INICIALIZA A MESA DE FORMA ALEATÓRIA NUM ESTADO INICIAL
 		PieChart gr1 = new PieChart(atual); // CHAMA GRÁFICO INICIAL

@@ -12,6 +12,7 @@ public class problemaDaMesa_genetico {
 		List<Pessoa> participante = Utils.listaConhecidaComConfitos();
 		
 		Utils.geradorDeConflitos(participante);
+		Utils.geradorDeConflitos(participante);
 		
 		int tamanhoPopulacao = 100;
 		int numeroGeracoes = 100;
@@ -28,10 +29,10 @@ public class problemaDaMesa_genetico {
 		for(int i=0; i<numeroGeracoes; i++) {
 			List<Mesa> proximaGeracao = new ArrayList<Mesa>();
 			for(int j=0; j<tamanhoPopulacao; j++) {
-				Mesa x = escolhe(geracaoAtual);
-				Mesa y = escolhe(geracaoAtual);
-				//Mesa x = escolheElite(geracaoAtual);
-				//Mesa y = escolheElite2(geracaoAtual,x);
+				//Mesa x = escolhe(geracaoAtual);
+				//Mesa y = escolhe(geracaoAtual);
+				Mesa x = escolheElite(geracaoAtual);
+				Mesa y = escolheElite2(geracaoAtual,x);
 				Mesa filho = cruzamento(x,y);
 				filho = mutacao(filho);
 				proximaGeracao.add(filho);

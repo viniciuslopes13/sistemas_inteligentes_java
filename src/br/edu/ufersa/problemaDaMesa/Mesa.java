@@ -129,8 +129,39 @@ public class Mesa {
 		return mesa;
 	}
 	
+	public Mesa trocaDuasPessoas() {
+		
+		Mesa m1 = new Mesa();
+		m1.setAlocados(Utils.copia(this.getAlocados()));
+		
+		Random random = new Random();
+		int tamanho = this.getAlocados().size();
+		int aleatorio = random.nextInt(tamanho-1);
+		
+		Pessoa p = m1.getAlocados().get(aleatorio);
+		Pessoa p2 = m1.getAlocados().get((aleatorio+1));
+		
+		m1.getAlocados().set(aleatorio, p2);
+		m1.getAlocados().set(aleatorio+1, p);
+		
+		return m1;
+	}
+	
 	public Mesa sucessor() {
-		Mesa m1;
+		Mesa m1 = new Mesa();
+		m1.setAlocados(Utils.copia(this.getAlocados()));
+		m1 = m1.trocaDuasPessoas();
+		
+		Mesa m2 = new Mesa();
+		m2.setAlocados(Utils.copia(this.getAlocados()));
+		m2 = m2.trocaDuasPessoas();
+		
+		if(m2.getNumConflitos() < m1.getNumConflitos()) {
+			return m2;
+		}
+		return m1;
+		
+		/*Mesa m1;
 		Mesa m2;
 		while(true) {
 			m1 = this.clone();
@@ -147,7 +178,7 @@ public class Mesa {
 		if(m2.getNumConflitos() < m1.getNumConflitos()) {
 			return m2;
 		}
-		return m1;
+		return m1;*/
 	}
 	
 	public Mesa sucessorTemperaSimulada() {

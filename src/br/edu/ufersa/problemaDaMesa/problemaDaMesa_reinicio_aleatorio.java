@@ -8,9 +8,10 @@ public class problemaDaMesa_reinicio_aleatorio {
 
 	public static void main(String[] args) {
 		
-		List<Pessoa> participante = Utils.listaConhecidaComConfitos();
+		List<Pessoa> participante = Utils.listaConhecida();
 		
-		//Utils.geradorDeConflitos(participante);
+		Utils.geradorDeConflitos(participante);
+		Utils.geradorDeConflitos(participante);
 		
 		Mesa melhor = new Mesa(Utils.copia(participante));
 		melhor.populaMesaAleatorio(); //INICIALIZA A MESA DE FORMA ALEATÓRIA NUM ESTADO INICIAL

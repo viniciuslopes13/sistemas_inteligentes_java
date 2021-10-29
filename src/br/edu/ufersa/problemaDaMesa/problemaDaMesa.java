@@ -8,8 +8,8 @@ public class problemaDaMesa {
 
 	public static void main(String[] args) {
 		
-		List<Pessoa> participante = Utils.listaConhecidaComConfitos();
-		//Utils.geradorDeConflitos(participante);
+		List<Pessoa> participante = Utils.mesaAleatoria();
+		Utils.geradorDeConflitos(participante);
 		
 		//AQUI COMEÇA O ALGORITMO - SUBIDA DE ENCOSTA
 		Mesa atual = new Mesa(participante);
